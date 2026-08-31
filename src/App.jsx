@@ -3,9 +3,9 @@ import './App.css';
 import LandingPage from "./pages/Landing/LandingPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import ProjectForm from "./features/project/components/ProjectForm";
 import QuestionCard from "./features/human-configuration/components/QuestionCard";
 import AnswerInput from "./features/human-configuration/components/AnswerInput";
+import CreateProject from "./pages/Projects/CreateProject";
 
 function TestConfigSection() {
   const [sprintLength, setSprintLength] = useState("2w");
@@ -64,7 +64,7 @@ function App() {
        <Routes>
        <Route path="/"  element={<LandingPage />} />
 
-       <Route path="/test-create-project" element={<div className="max-w-[620px] mx-auto p-8"><ProjectForm /></div>} />
+       <Route path="/create-project" element={<CreateProject />} />
        <Route path="/test-config" element={<TestConfigSection />} />
 
        </Routes>
