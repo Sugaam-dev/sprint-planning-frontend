@@ -1,4 +1,5 @@
-// Generic answer renderer — dispatches based on `type`
+import { useState } from "react";
+
 export default function AnswerInput({
   type,
   label,
@@ -181,5 +182,253 @@ export default function AnswerInput({
     );
   }
 
+  if (type === "date-pair") {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {options.map((f) => (
+          <div key={f.k}>
+            <label className="block text-[11.5px] font-semibold text-[#767085] mb-1.5">
+              {f.l}
+            </label>
+            <input
+              type="date"
+              value={value[f.k] || ""}
+              onChange={(e) => onChange({ ...value, [f.k]: e.target.value })}
+              className="w-full text-[13.5px] font-medium text-[#1B1730] bg-white border-[1.5px] border-[#E7E4DD] rounded-[9px] px-3 py-2.5 focus:outline-none focus:border-[#6D5EF5]"
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (type === "hours-grid") {
+    return <HoursGrid label={label} fields={options} value={value} onChange={onChange} />;
+  }
+
+  if (type === "toggle-rows") {
+    return (
+      <div>
+        {labelEl}
+        <div className="flex flex-col gap-3">
+          {options.map((row) => (
+            <div key={row.k} className="flex items-center justify-between gap-3">
+              <span className="text-[12.5px] text-[#1B1730] flex-1">{row.l}</span>
+              <div className="flex gap-1.5">
+                {row.options.map((opt) => (
+                  <button
+                    key={opt}
+                    type="button"
+                    onClick={() => onChange({ ...value, [row.k]: opt })}
+                    className={`text-[11.5px] font-semibold px-3 py-1.5 rounded-full border-[1.5px] transition-all whitespace-nowrap ${
+                      value[row.k] === opt
+                        ? "bg-[#6D5EF5] border-[#6D5EF5] text-white"
+                        : "bg-white border-[#E7E4DD] text-[#767085] hover:border-[#6D5EF5]"
+                    }`}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+    if (type === "calibration-info") {
+    const rows = [
+      ["1 SP", "Trivial", "Text/field change, simple CSS adjustment", "2 – 4 hrs"],
+      ["2 SP", "Small / Standard", "Simple CRUD endpoint, standard UI form validation", "4 – 8 hrs"],
+      ["3 SP", "Medium", "Multi-field API with DB migrations and unit tests", "8 – 16 hrs"],
+      ["5 SP", "Complex", "Gateway integration, MFA, complex async event", "16 – 32 hrs"],
+      ["8 SP", "High / Multi-module", "Full subsystem with cross-service dependencies", "32 – 50 hrs"],
+      ["13+ SP", "Epic", "Unresolved external dependencies / multi-team", "Mandatory split"],
+    ];
+    return (
+      <div>
+        {labelEl}
+        <div className="overflow-x-auto border border-[#E7E4DD] rounded-xl">
+          <table className="w-full text-[12px] border-collapse">
+            <thead>
+              <tr className="bg-[#FAF9F6] text-left">
+                <th className="px-3 py-2.5 font-semibold text-[#767085]">Points</th>
+                <th className="px-3 py-2.5 font-semibold text-[#767085]">Complexity</th>
+                <th className="px-3 py-2.5 font-semibold text-[#767085]">Typical scope</th>
+                <th className="px-3 py-2.5 font-semibold text-[#767085]">Ideal hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r, i) => (
+                <tr key={i} className="border-t border-[#ECEFFA]">
+                  {r.map((c, j) => (
+                    <td key={j} className="px-3 py-2.5 text-[#1B1730]">
+                      {c}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+    if (type === "resource-table") {
+    return (
+      <div>
+        {labelEl}
+        <div className="overflow-x-auto border border-[#E7E4DD] rounded-xl">
+          <table className="w-full text-[12px] border-collapse">
+            <thead>
+              <tr className="bg-[#FAF9F6] text-left">
+                {options.cols.map((c) => (
+                  <th key={c[0]} className="px-3 py-2.5 font-semibold text-[#767085] whitespace-nowrap">
+                    {c[1]}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {value.map((row, i) => (
+                <tr key={i} className="border-t border-[#ECEFFA]">
+                  {row.map((cell, j) => (
+                    <td key={j} className="px-1 py-1.5">
+                      <input
+                        value={cell}
+                        onChange={(e) => {
+                          const next = value.map((r) => [...r]);
+                          next[i][j] = e.target.value;
+                          onChange(next);
+                        }}
+                        className="w-full text-[12px] text-[#1B1730] bg-transparent px-2 py-1.5 rounded-md focus:outline-none focus:bg-white focus:border focus:border-[#6D5EF5]"
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+    if (type === "date-list") {
+    return (
+      <div>
+        {labelEl}
+        <div className="flex flex-col gap-2">
+          {value.map((d, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <input
+                type="date"
+                value={d}
+                onChange={(e) => {
+                  const next = [...value];
+                  next[i] = e.target.value;
+                  onChange(next);
+                }}
+                className="flex-1 text-[13px] text-[#1B1730] bg-white border-[1.5px] border-[#E7E4DD] rounded-md px-3 py-2 focus:outline-none focus:border-[#6D5EF5]"
+              />
+              <button
+                type="button"
+                onClick={() => onChange(value.filter((_, j) => j !== i))}
+                className="w-7 h-7 flex items-center justify-center text-[#A29CB5] hover:text-[#DC2626] rounded-full"
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={() => onChange([...value, ""])}
+          className="mt-2 text-[12px] font-semibold text-[#6D5EF5] hover:underline"
+        >
+          + Add date
+        </button>
+      </div>
+    );
+  }
+
+  if (type === "formula-info") {
+    return (
+      <div>
+        {labelEl}
+        <div className="bg-[#FAF9F6] border border-[#E7E4DD] rounded-xl p-4 font-mono text-[12.5px] text-[#1B1730] leading-relaxed">
+          Net Capacity =<br />
+          &nbsp;&nbsp;( Total Available Member Hours<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;− Planned Leaves<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;− Ceremonies )<br />
+          &nbsp;&nbsp;× ( 1 − Buffer Margin )
+        </div>
+      </div>
+    );
+  }
+
+    if (type === "number-pair") {
+    return (
+      <div>
+        {labelEl}
+        <div className="grid grid-cols-2 gap-4">
+          {options.map((f) => (
+            <div key={f.k}>
+              <label className="block text-[11.5px] font-semibold text-[#767085] mb-1.5">
+                {f.l}
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  value={value[f.k] || ""}
+                  placeholder={f.ph}
+                  onChange={(e) => onChange({ ...value, [f.k]: e.target.value })}
+                  className="w-full text-[13.5px] text-[#1B1730] bg-white border-[1.5px] border-[#E7E4DD] rounded-[9px] px-3 py-2.5 focus:outline-none focus:border-[#6D5EF5]"
+                />
+                <span className="text-[10.5px] text-[#A29CB5] whitespace-nowrap">{f.unit}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return null;
-}   
+}
+
+function HoursGrid({ label, fields, value, onChange }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="text-[12.5px] font-semibold text-[#6D5EF5] hover:underline"
+      >
+        {open ? "Hide" : "Show"} {label} {open ? "▲" : "▼"}
+      </button>
+      {open && (
+        <div className="mt-3 flex flex-col gap-2.5 bg-[#FAF9F6] border border-[#E7E4DD] rounded-xl p-4">
+          {fields.map((f) => (
+            <div key={f.k} className="flex items-center justify-between gap-3">
+              <span className="text-[12.5px] text-[#1B1730]">{f.l}</span>
+              <div className="flex items-center gap-2 w-[140px]">
+                <input
+                  type="number"
+                  value={value[f.k] || ""}
+                  placeholder={f.ph}
+                  onChange={(e) => onChange({ ...value, [f.k]: e.target.value })}
+                  className="w-full text-[13px] text-right bg-white border border-[#E7E4DD] rounded-md px-2 py-1.5 focus:outline-none focus:border-[#6D5EF5]"
+                />
+                <span className="text-[10.5px] text-[#A29CB5] whitespace-nowrap">{f.unit}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
