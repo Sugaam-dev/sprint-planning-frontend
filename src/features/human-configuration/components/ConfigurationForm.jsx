@@ -3,8 +3,8 @@ import QuestionCard from "./QuestionCard";
 import AnswerInput from "./AnswerInput";
 import { SECTIONS, getDefaultAnswers, isSectionComplete } from "../humanConfigData";
 
-export default function ConfigurationForm({ onSave }) {
-  const [mode, setMode] = useState("essential"); // "essential" | "full"
+export default function ConfigurationForm({ onSave, initialMode = "essential" }) {
+  const [mode, setMode] = useState(initialMode); // "essential" | "full"
   const [answers, setAnswers] = useState(getDefaultAnswers());
 
   const visibleSections =
