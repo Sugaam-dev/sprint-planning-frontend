@@ -3,7 +3,6 @@ import ProjectDocumentUpload from "./ProjectDocumentUpload";
 
 export default function ProjectForm({ onCreated, onBeforeResources }) {
   const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
   const [nameError, setNameError] = useState(false);
   const [fileError, setFileError] = useState(false);
@@ -68,23 +67,6 @@ export default function ProjectForm({ onCreated, onBeforeResources }) {
               Enter a project name to continue.
             </div>
           )}
-        </div>
-
-        {/* Description */}
-        <div className="mb-[22px]">
-          <div className="text-[13.5px] font-semibold text-[#1A1A2E] mb-2 flex items-baseline justify-between">
-            Description <span className="font-medium text-[#9599AC] text-xs">Optional</span>
-          </div>
-          <textarea
-            maxLength={280}
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
-            placeholder="A short summary of what this project covers…"
-            className="w-full min-h-[84px] text-sm rounded-[9px] px-3.5 py-2.5 bg-[#F8F9FE] border border-[#E3E7F5] focus:outline-none focus:bg-white focus:border-[#2563EB] focus:ring-[3px] focus:ring-[#EDF1FE] resize-y"
-          />
-          <div className="flex justify-end text-[11.5px] font-mono text-[#9599AC] mt-1.5">
-            {desc.length} / 280
-          </div>
         </div>
 
         {/* File upload (separate component) */}
