@@ -74,26 +74,25 @@ export default function ProjectForm({ onCreated, onBeforeResources }) {
         setError={setFileError}
       />
 
-      {/* Footer */}
-      <div className="flex items-center justify-between gap-3.5 mt-7 pt-[22px] border-t border-[#ECEFFA] flex-wrap">
+            {/* Footer */}
+      <div className="flex flex-col gap-3.5 mt-7 pt-[22px] border-t border-[#ECEFFA]">
         <div className="text-xs text-[#9599AC] leading-relaxed">
           Agent 1 typically takes 20–40 seconds
           <br />
           to extract features from a document.
         </div>
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
           <button
             type="button"
             onClick={handleBeforeResources}
-            className="text-[13.5px] font-bold text-white bg-[#9333EA] border border-[#9333EA] px-[22px] py-3 rounded-full shadow-[0_10px_24px_-8px_rgba(147,51,234,0.45)] hover:brightness-110 hover:-translate-y-px transition-all whitespace-nowrap"
+            className="text-[13.5px] font-bold text-white bg-[#9333EA] border border-[#9333EA] px-[22px] py-3 rounded-full shadow-[0_10px_24px_-8px_rgba(147,51,234,0.45)] hover:brightness-110 hover:-translate-y-px transition-all text-center"
           >
             Before Allocated Resources
           </button>
           <button
             type="submit"
             disabled={submitting}
-            className="flex items-center gap-2 text-[13.5px] font-bold text-white bg-gradient-to-br from-[#2563EB] to-[#9333EA] px-[22px] py-3 rounded-full shadow-[0_10px_24px_-8px_rgba(124,58,237,0.5)] hover:brightness-105 hover:-translate-y-px transition-all disabled:opacity-60 disabled:cursor-not-allowed whitespace-nowrap"
-          >
+            className="flex items-center justify-center gap-2 text-[13.5px] font-bold text-white bg-gradient-to-br from-[#2563EB] to-[#9333EA] px-[22px] py-3 rounded-full shadow-[0_10px_24px_-8px_rgba(124,58,237,0.5)] hover:brightness-105 hover:-translate-y-px transition-all disabled:opacity-60 disabled:cursor-not-allowed">
             {submitting ? (
               <>
                 <span className="w-3.5 h-3.5 rounded-full border-2 border-white/40 border-t-white animate-spin" />
