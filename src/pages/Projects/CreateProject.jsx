@@ -89,7 +89,7 @@ export default function CreateProject() {
         <WorkflowHeader activeStep="extract-features" />
 
         <div className="max-w-[1280px] mx-auto px-10 py-14 pb-24 flex justify-center">
-          <div className="w-full max-w-[640px]">
+            <div className="w-full max-w-[640px] 2xl:max-w-[820px]">
             <div
               className="inline-flex items-center gap-[7px] font-mono text-[11px] tracking-wide text-[#0891b2] mb-5 opacity-0"
               style={{ animation: "rise 0.55s ease forwards" }}
