@@ -74,7 +74,7 @@ const Projects = () => {
 
   return (
     <div className="min-h-screen bg-[#eef0f7] p-6 md:p-10">
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className="w-full space-y-6">
         {/* Stats row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
           <StatTile icon={Folder} iconBg="bg-slate-900" value={projects.length} label="Total Projects" />
