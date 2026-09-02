@@ -1,15 +1,36 @@
+import { useRef } from "react";
 import WorkflowStepper from "./WorkflowStepper";
+import logo from "../assets/logo-light.png";
 
-export default function WorkflowHeader({ activeStep = "new-project" }) {
+export default function WorkflowHeader({ activeStep = "extract-features" }) {
+  const btnRef = useRef(null);
+
+  function handleMouseMove(e) {
+    const btn = btnRef.current;
+    const r = btn.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width / 2) * 0.18;
+    const y = (e.clientY - r.top - r.height / 2) * 0.28;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+  }
+  function handleMouseLeave() {
+    btnRef.current.style.transform = "translate(0,0)";
+  }
+
   return (
-    <header className="bg-white border-b border-[#E7E4DD] sticky top-0 z-30">
-      <div className="max-w-[1100px] mx-auto px-6 py-4 flex items-center justify-between flex-wrap gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#6D5EF5] to-[#9333EA] flex items-center justify-center text-white font-bold text-[15px]">
-            P
-          </div>
-          <span className="font-bold text-[15px] text-[#1B1730]">PMRG Solution</span>
-        </div>
+    <header className="sticky top-0 z-30 flex items-center justify-between px-10 py-4 bg-white/80 backdrop-blur-md border-b border-[#e7e2f3]">
+            <div className="flex items-center">
+        <img src={logo} alt="PMRG Solution" className="h-9 w-auto" />
+      </div>
+
+      <div className="flex items-center gap-[18px]">
+        <button
+          ref={btnRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="bg-gradient-to-br from-[#8b5cf6] to-[#5b21c8] text-white border-none px-[18px] py-[9px] rounded-[9px] font-semibold text-[13.5px] shadow-[0_8px_18px_-6px_rgba(124,58,237,0.55)] transition-transform"
+        >
+          New Project
+        </button>
         <WorkflowStepper activeStep={activeStep} />
       </div>
     </header>

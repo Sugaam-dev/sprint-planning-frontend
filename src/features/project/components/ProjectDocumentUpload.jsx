@@ -1,26 +1,16 @@
 import { useState, useRef } from "react";
 
 const ALLOWED_EXT = ["pdf", "doc", "docx", "txt"];
-const MAX_SIZE = 50 * 1024 * 1024; // 50MB
+const MAX_SIZE = 50 * 1024 * 1024;
 
 function extOf(name) {
   return name.split(".").pop().toLowerCase();
-}
-function fmtSize(bytes) {
-  if (bytes < 1024) return bytes + " B";
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
-}
-function iconLabel(ext) {
-  if (ext === "pdf") return { label: "PDF", color: "text-rose-600 bg-rose-50 border-rose-200" };
-  if (ext === "doc" || ext === "docx")
-    return { label: "DOC", color: "text-indigo-600 bg-indigo-50 border-indigo-200" };
-  return { label: "TXT", color: "text-emerald-600 bg-emerald-50 border-emerald-200" };
 }
 
 export default function ProjectDocumentUpload({ file, setFile, error, setError }) {
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef(null);
+  const browseBtnRef = useRef(null);
 
   function validateAndSetFile(selected) {
     if (!selected) return;
@@ -43,91 +33,169 @@ export default function ProjectDocumentUpload({ file, setFile, error, setError }
     validateAndSetFile(e.dataTransfer.files[0]);
   }
 
+  function spawnRipple(e) {
+    const btn = browseBtnRef.current;
+    const rect = btn.getBoundingClientRect();
+    const ripple = document.createElement("span");
+    ripple.style.position = "absolute";
+    ripple.style.borderRadius = "50%";
+    ripple.style.background = "rgba(255,255,255,0.6)";
+    ripple.style.transform = "scale(0)";
+    ripple.style.animation = "rippleAnim 0.55s ease-out";
+    ripple.style.pointerEvents = "none";
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + "px";
+    ripple.style.left = e.clientX - rect.left - size / 2 + "px";
+    ripple.style.top = e.clientY - rect.top - size / 2 + "px";
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 550);
+  }
+
+  function handleBrowseClick(e) {
+    spawnRipple(e);
+    fileInputRef.current?.click();
+  }
+
   return (
     <div>
-      <div className="text-[13.5px] font-semibold text-[#1A1A2E] mb-2">Upload BRD / Document</div>
+      <div className="text-[13.5px] font-semibold text-[#171325] mb-2.5">
+        Upload BRD / Document
+      </div>
 
-      {!file ? (
-        <div
-          onClick={() => fileInputRef.current?.click()}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragOver(true);
-          }}
-          onDragLeave={() => setDragOver(false)}
-          onDrop={handleDrop}
-          className={`text-center rounded-xl border-[1.5px] border-dashed px-5 py-9 cursor-pointer transition-all ${
-            error
-              ? "border-[#DC2626] bg-[#FCEBEB]"
-              : dragOver
-              ? "border-[#9333EA] bg-[#EDF1FE] shadow-[0_0_0_4px_rgba(147,51,234,0.14)]"
-              : "border-[#E3E7F5] bg-[#F8F9FE] hover:border-[#2563EB] hover:bg-[#EDF1FE]"
-          }`}
-        >
-          <div className="w-12 h-12 rounded-[13px] mx-auto mb-3.5 bg-gradient-to-br from-[#2563EB] to-[#9333EA] flex items-center justify-center text-white shadow-[0_8px_20px_-6px_rgba(124,58,237,0.5)]">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
-            </svg>
-          </div>
-          <div className="text-[13.5px] text-[#686D80] mb-3.5">
-            Drag &amp; drop your file here, or
-          </div>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              fileInputRef.current?.click();
-            }}
-            className="text-xs font-bold text-white bg-gradient-to-br from-[#2563EB] to-[#9333EA] px-5 py-2.5 rounded-full shadow-[0_8px_18px_-6px_rgba(124,58,237,0.5)] hover:brightness-105 hover:-translate-y-px transition-all"
-          >
-            Browse file
-          </button>
-          <div className="text-[11.5px] font-mono text-[#9599AC] mt-3.5">
-            SUPPORTS PDF, DOCX, TXT · MAX 50MB
-          </div>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".pdf,.doc,.docx,.txt"
-            onChange={(e) => validateAndSetFile(e.target.files[0])}
-            className="hidden"
-          />
-        </div>
-      ) : (
-        <div className="flex items-center gap-3 border border-[#E3E7F5] rounded-xl bg-[#F8F9FE] px-4 py-3.5">
+      <div
+        onClick={() => !file && fileInputRef.current?.click()}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragOver(true);
+        }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={handleDrop}
+        className={`relative overflow-hidden text-center rounded-2xl px-6 pt-12 pb-8 cursor-pointer transition-all ${
+          dragOver
+            ? "border border-[#7c3aed] scale-[1.015] bg-[#f1e9ff]"
+            : error
+            ? "border-[1.5px] border-dashed border-[#DC2626] bg-[#FCEBEB]"
+            : "border-[1.5px] border-dashed border-[#d8cff0] hover:border-[#8b5cf6]"
+        }`}
+        style={
+          !dragOver && !error
+            ? {
+                background:
+                  "radial-gradient(120% 140% at 50% 0%, #f5f0ff 0%, #fbfaff 55%, #faf9fd 100%)",
+              }
+            : {}
+        }
+      >
+        {/* scan line while dragging */}
+        {dragOver && (
           <div
-            className={`w-10 h-10 rounded-[10px] flex items-center justify-center flex-shrink-0 border ${
-              iconLabel(extOf(file.name)).color
-            }`}
-          >
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-              <path d="M14 2v6h6" />
-            </svg>
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="text-[13.5px] font-semibold text-[#1A1A2E] truncate">{file.name}</div>
-            <div className="text-xs font-mono text-[#686D80] mt-0.5">
-              {iconLabel(extOf(file.name)).label} · {fmtSize(file.size)}
-            </div>
-            <div className="h-1 rounded-full bg-[#ECEFFA] mt-2 overflow-hidden">
-              <div className="h-full w-full rounded-full bg-gradient-to-r from-[#2563EB] to-[#9333EA] transition-all" />
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => {
-              setFile(null);
-              if (fileInputRef.current) fileInputRef.current.value = "";
+            className="absolute left-0 right-0 h-0.5 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(90deg, transparent, #06b6d4, transparent)",
+              animation: "scanLine 1.1s ease-in-out infinite",
             }}
-            className="w-[30px] h-[30px] rounded-full border border-[#E3E7F5] flex items-center justify-center text-[#686D80] hover:border-[#DC2626] hover:text-[#DC2626] hover:bg-[#FCEBEB] flex-shrink-0 transition-all"
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
+          />
+        )}
+
+        {/* filetype badges */}
+        <div className="flex items-center justify-center gap-2 mb-[18px]">
+          {[
+            { label: "PDF", from: "#f4574f", to: "#d63b34", delay: "0.05s" },
+            { label: "DOCX", from: "#4d8bff", to: "#2f65e6", delay: "0.13s" },
+            { label: "TXT", from: "#8b93a1", to: "#69707d", delay: "0.21s" },
+          ].map((b) => (
+            <span
+              key={b.label}
+              className="flex items-center justify-center h-6 px-[9px] rounded-[7px] text-white font-bold text-[10.5px] tracking-wide opacity-0"
+              style={{
+                background: `linear-gradient(135deg, ${b.from}, ${b.to})`,
+                boxShadow: "0 4px 10px -4px rgba(0,0,0,0.28)",
+                animation: `badgeIn 0.4s cubic-bezier(.2,.7,.2,1) forwards ${b.delay}`,
+              }}
+            >
+              {b.label}
+            </span>
+          ))}
         </div>
-      )}
+
+        {/* orbiting icon */}
+        <div className="relative w-14 h-14 mx-auto mb-5">
+          <div
+            className="absolute -inset-[9px] rounded-full border border-dashed"
+            style={{
+              borderColor: "rgba(124,58,237,0.3)",
+              animation: "spinSlow 6s linear infinite",
+            }}
+          >
+            <span
+              className="absolute w-[5px] h-[5px] rounded-full -top-[2.5px] left-1/2 -translate-x-1/2"
+              style={{
+                background: "#06b6d4",
+                boxShadow: "0 0 8px rgba(6,182,212,0.7)",
+              }}
+            />
+          </div>
+          <div
+            className="w-full h-full rounded-[14px] flex items-center justify-center"
+            style={{
+              background: file
+                ? "linear-gradient(140deg, #22c58d, #159b6d)"
+                : "linear-gradient(140deg, #8b5cf6, #5b21c8)",
+              boxShadow: "0 14px 30px -10px rgba(124,58,237,0.55)",
+              animation: file ? "none" : "floatIcon 3s ease-in-out infinite",
+            }}
+          >
+            {file ? (
+              <svg width="23" height="23" viewBox="0 0 24 24" fill="none">
+                <path d="M5 13l4 4L19 7" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            ) : (
+              <svg width="23" height="23" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
+          </div>
+        </div>
+
+        <div className="text-[#6f6a82] text-sm mb-5">
+          {file ? `${file.name} selected` : "Drag & drop your file here, or"}
+        </div>
+
+        <button
+          ref={browseBtnRef}
+          type="button"
+          onClick={handleBrowseClick}
+          className="relative overflow-hidden inline-block text-white border-none px-6 py-[10.5px] rounded-[9px] font-semibold text-[13.5px] mb-[18px] active:scale-[0.97] transition-transform"
+          style={{
+            background: "linear-gradient(135deg, #8b5cf6, #5b21c8)",
+            boxShadow: "0 10px 24px -8px rgba(124,58,237,0.55)",
+          }}
+        >
+          Browse file
+        </button>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".pdf,.doc,.docx,.txt"
+          onChange={(e) => validateAndSetFile(e.target.files[0])}
+          className="hidden"
+        />
+
+        <div className="font-mono text-[11px] tracking-wide text-[#a29cb5]">
+          {file ? (
+            <>
+              READY TO EXTRACT &nbsp;·&nbsp; click browse to replace
+            </>
+          ) : (
+            <>
+              MAX FILE SIZE <b className="text-[#6f6a82] font-medium">50MB</b>
+            </>
+          )}
+        </div>
+      </div>
 
       {error && (
         <div className="flex items-center gap-1.5 text-xs text-[#DC2626] mt-1.5">
