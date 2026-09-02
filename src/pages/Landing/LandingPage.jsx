@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button";
+import logo from "../../assets/logo-light.png";
 
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -208,20 +209,16 @@ const LandingPage = () => {
 
       {/* ── Header ── */}
       <header style={{ position: "sticky", top: 0, zIndex: 60, padding: "18px 24px 0" }}>
-        <div className="navpill page-container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderRadius: 999, padding: "10px 10px 10px 20px" }}>
-          {/* Logo + Name */}
+        <div className="navpill page-container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderRadius: 999, padding: "16px 16px 16px 28px" }}>
+          {/* Logo */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            {/* Logo placeholder — replace with <img src="/logo.png" ... /> when sir sends it */}
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: "var(--grad-1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </div>
-            <span style={{ fontWeight: 700, fontSize: 19, letterSpacing: "-0.01em" }}>PMRG Solution</span>
+            <img src={logo} alt="PMRG Solution" style={{ height: 44, width: "auto" }} />
           </div>
 
           {/* Get Started — uses Button component */}
           <Button
             shape="pill"
-            size="sm"
+            size="md"
             variant="gradient"
             gradientFrom="#4F46E5"
             gradientTo="#06B6D4"
@@ -503,10 +500,7 @@ const LandingPage = () => {
         <div className="page-container" style={{ padding: "0 40px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 20, paddingTop: 32, borderTop: "1px solid var(--line)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <div style={{ width: 28, height: 28, borderRadius: 8, background: "var(--grad-1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              </div>
-              <span style={{ fontWeight: 700, fontSize: 15 }}>PMRG Solution</span>
+              <img src={logo} alt="PMRG Solution" style={{ height: 28, width: "auto" }} />
             </div>
             <div style={{ fontSize: 13, color: "var(--ink-mute)" }}>© 2026 PMRG Solution. All rights reserved.</div>
           </div>

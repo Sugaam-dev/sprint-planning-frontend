@@ -17,7 +17,6 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          {/* <Route path="/dashboard" element={<div style={{ padding: 40 }}>Dashboard Coming Soon</div>} /> */}
         </Routes>
       </BrowserRouter>
     </div>
