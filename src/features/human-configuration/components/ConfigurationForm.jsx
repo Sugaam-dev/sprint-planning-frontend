@@ -64,18 +64,27 @@ export default function ConfigurationForm({ onSave, initialMode = "essential" })
             subtitle={section.subtitle}
             complete={isSectionComplete(section, answers)}
           >
-            <div className="flex flex-col gap-5">
-              {section.fields.map((field) => (
-                <AnswerInput
-                  key={field.key}
-                  type={field.type}
-                  label={field.label}
-                  value={answers[field.key]}
-                  onChange={(v) => updateAnswer(field.key, v)}
-                  options={field.options}
-                  unit={field.unit}
-                />
-              ))}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 items-start">
+              {section.fields.map((field) => {
+                const compact = ["select", "number"].includes(field.type);
+                const spanClass = compact
+                  ? ""
+                  : field.type === "date-pair"
+                  ? "sm:col-span-2"
+                  : "col-span-full";
+                return (
+                  <div key={field.key} className={spanClass}>
+                    <AnswerInput
+                      type={field.type}
+                      label={field.label}
+                      value={answers[field.key]}
+                      onChange={(v) => updateAnswer(field.key, v)}
+                      options={field.options}
+                      unit={field.unit}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </QuestionCard>
         ))}

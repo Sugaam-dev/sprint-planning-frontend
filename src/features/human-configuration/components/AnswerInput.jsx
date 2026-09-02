@@ -9,8 +9,8 @@ export default function AnswerInput({
   placeholder,
   unit,
 }) {
-  const labelEl = label && (
-    <label className="block text-[11.5px] font-semibold text-[#767085] mb-1.5">
+    const labelEl = label && (
+    <label className="flex items-end min-h-[30px] text-[11.5px] font-semibold text-[#767085] mb-1.5 leading-tight">
       {label}
     </label>
   );
@@ -187,7 +187,7 @@ export default function AnswerInput({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {options.map((f) => (
           <div key={f.k}>
-            <label className="block text-[11.5px] font-semibold text-[#767085] mb-1.5">
+            <label className="flex items-end min-h-[30px] text-[11.5px] font-semibold text-[#767085] mb-1.5 leading-tight">
               {f.l}
             </label>
             <input
