@@ -11,9 +11,8 @@ import ProjectDetails from "./pages/Projects/ProjectDetails";
 import NotFound from "./pages/Error/NotFound";
 import FeatureReview from "./pages/Workflow/FeatureReview";
 import UserStoryReview from "./pages/Workflow/UserStoryReview";
-
-
-
+import CreateProject from "./pages/Projects/CreateProject";
+import HumanConfiguration from "./pages/Workflow/HumanConfiguration";
 
 function App() {
   return (
@@ -22,6 +21,9 @@ function App() {
        <Routes>
        <Route path="/"  element={<LandingPage />} />
        <Route path="/release-planning" element={<ReleasePlanningPage />} />
+       <Route path="/create-project" element={<CreateProject />} />
+       <Route path="/human-configuration" element={<HumanConfiguration />} />
+      
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
@@ -33,6 +35,7 @@ function App() {
           <Route path="/workflow/user-stories" element={<UserStoryReview />} />   
         </Routes>
       </BrowserRouter>
+
     </div>
   );
 }
