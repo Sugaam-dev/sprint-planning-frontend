@@ -4,6 +4,9 @@ import LandingPage from "./pages/Landing/LandingPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReleasePlanningPage from "./pages/ReleasePlanning/ReleasePlanningPage";
 
+import CreateProject from "./pages/Projects/CreateProject";
+import HumanConfiguration from "./pages/Workflow/HumanConfiguration";
+
 function App() {
   return (
     <div>
@@ -11,7 +14,8 @@ function App() {
        <Routes>
        <Route path="/"  element={<LandingPage />} />
        <Route path="/release-planning" element={<ReleasePlanningPage />} />
-
+       <Route path="/create-project" element={<CreateProject />} />
+       <Route path="/human-configuration" element={<HumanConfiguration />} />
        </Routes>
        </BrowserRouter>
     </div>
