@@ -1,6 +1,7 @@
 import React from "react";
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ReleasePlanningPage from "./pages/ReleasePlanning/ReleasePlanningPage";
 import LandingPage from "./pages/Landing/LandingPage";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
@@ -11,9 +12,14 @@ import ProjectDetails from "./pages/Projects/ProjectDetails";
 import NotFound from "./pages/Error/NotFound";
 
 
+
 function App() {
   return (
     <div>
+       <BrowserRouter>
+       <Routes>
+       <Route path="/"  element={<LandingPage />} />
+       <Route path="/release-planning" element={<ReleasePlanningPage />} />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
