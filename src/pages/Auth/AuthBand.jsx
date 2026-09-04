@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../../assets/logo-transparent.png";
 
 /**
- * The gradient header band shared by every auth page (Login, SignUp,
+ * The gradient header band shared by every auth page (Login,
  * ForgotPassword, ResetPassword). Only the headline/sub text differs
  * per page — everything else (logo, brand name, decorative glow/grid)
  * was previously copy-pasted into all four files.
