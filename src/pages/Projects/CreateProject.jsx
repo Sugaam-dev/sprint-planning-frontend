@@ -88,8 +88,8 @@ export default function CreateProject() {
       <div className="relative z-10">
         <WorkflowHeader activeStep="extract-features" />
 
-        <div className="max-w-[1280px] xl:max-w-[1500px] 2xl:max-w-[1700px] mx-auto px-10 py-14 pb-24 flex justify-center">
-              <div className="w-full max-w-[640px] xl:max-w-[760px] 2xl:max-w-[980px]">
+                <div className="w-full max-w-[92vw] mx-auto px-4 sm:px-10 py-14 pb-24 flex justify-center">
+          <div className="w-full max-w-[min(640px,90vw)] xl:max-w-[min(50vw,900px)] 2xl:max-w-[min(45vw,1100px)]">
             <div
               className="inline-flex items-center gap-[7px] font-mono text-[11px] tracking-wide text-[#0891b2] mb-5 opacity-0"
               style={{ animation: "rise 0.55s ease forwards" }}
