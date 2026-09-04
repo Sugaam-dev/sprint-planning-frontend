@@ -1,6 +1,6 @@
 /**
  * Shared password validation helpers.
- * Reused by SignUp.jsx and ResetPassword.jsx — per team convention this
+ * Reused by ResetPassword.jsx — per team convention this
  * lives in one place instead of each page scoring passwords itself.
  */
 

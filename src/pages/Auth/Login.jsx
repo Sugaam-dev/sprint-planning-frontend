@@ -71,11 +71,6 @@ const Login = () => {
             <button className="auth-btn-social">Google</button>
             <button className="auth-btn-social">GitHub</button>
           </div>
-
-          <div className="auth-switch-line">
-            Don't have an account?{" "}
-            <span className="auth-link" onClick={() => navigate("/signup")}>Sign up</span>
-          </div>
         </div>
 
         <div className="auth-foot">© 2026 PMRG Solution</div>
